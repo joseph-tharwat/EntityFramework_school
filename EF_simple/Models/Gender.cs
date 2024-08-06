@@ -1,14 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EF_simple.Models
 {
-    public class Book
+    public class Gender
     {
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
-
-        public int Order { get; set; } // for sequance
     }
 }

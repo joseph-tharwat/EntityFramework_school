@@ -3,6 +3,7 @@ using EF_simple.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EF_simple.Migrations
 {
     [DbContext(typeof(SchoolDbContext))]
-    partial class SchoolDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240802174318_dataAnnotationFluentApi")]
+    partial class dataAnnotationFluentApi
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -20,9 +23,6 @@ namespace EF_simple.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.HasSequence<int>("EnteredOrder")
-                .StartsAt(10L);
 
             modelBuilder.Entity("EF_simple.Models.Book", b =>
                 {
@@ -35,11 +35,6 @@ namespace EF_simple.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Order")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValueSql("NEXT VALUE FOR EnteredOrder");
 
                     b.HasKey("Id");
 
@@ -63,35 +58,6 @@ namespace EF_simple.Migrations
                     b.ToTable("Departments");
                 });
 
-            modelBuilder.Entity("EF_simple.Models.Gender", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Genders");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Male"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Female"
-                        });
-                });
-
             modelBuilder.Entity("EF_simple.Models.Grade", b =>
                 {
                     b.Property<int>("Id")
@@ -112,11 +78,6 @@ namespace EF_simple.Migrations
                     b.Property<int>("StudentId")
                         .HasColumnType("int");
 
-                    b.Property<float>("TotalGrade")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("real")
-                        .HasComputedColumnSql("[Physics] + [Math] + [Arabic]");
-
                     b.HasKey("Id");
 
                     b.HasIndex("StudentId")
@@ -134,9 +95,7 @@ namespace EF_simple.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("Age")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(18);
+                        .HasColumnType("int");
 
                     b.Property<int>("DepartmentId")
                         .HasColumnType("int");
@@ -146,16 +105,9 @@ namespace EF_simple.Migrations
                         .HasColumnType("varchar(50)")
                         .HasColumnName("studentName");
 
-                    b.Property<int>("Order")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValueSql("NEXT VALUE FOR EnteredOrder");
-
                     b.HasKey("Id");
 
                     b.HasIndex("DepartmentId");
-
-                    b.HasIndex("Name");
 
                     b.ToTable("std", (string)null);
                 });

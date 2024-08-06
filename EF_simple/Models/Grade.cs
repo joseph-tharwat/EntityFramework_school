@@ -13,7 +13,8 @@ namespace EF_simple.Models
 
         [ForeignKey("Student")]
         public int StudentId { get; set; }
-        
+
+        public float TotalGrade { get; set; }
         public virtual Student student { get; set; }
 
     }
